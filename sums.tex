@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx,tikz}
+\usepackage{geometry}
+
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+
+\newcommand{\code}[1]{{\fontfamily{pcr}\selectfont #1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\srs}[1]{\{#1\}_1^\infty}
+
+\newcommand{\env}[2]{\begin{#1}#2\end{#1}}
+\newcommand{\spl}[1]{\begin{split}#1\end{split}}
+\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+
+\newcommand{\zee}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\arr}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+
+\newcommand{\sumt}{\text{sum}}
+
+\begin{document}
+
+\section{Introduction}
+
+For $A, B \in \mathcal{P}(\zee)$ and $k \in \zee$, consider
+\[A \oplus_k B = \begin{cases}
+    A & B = \emptyset \\
+    B & A = \emptyset \\
+    ((A \cup B) - (A \cap B)) \oplus_k \{kn \mid n \in (A \cap B)\}
+        & A \neq \emptyset, B \neq \emptyset
+\end{cases}\]
+
+For $A \in \mathcal{P}(\zee)$, let $\sumt(A)$ be the sum of all distinct
+elements of $A$. Let $\sumt(\emptyset) = 0$.
+
+A few remarks:
+\begin{itemize}
+    \item The problem is uninteresting for $k = 0$ and $k = 1$, as
+    \begin{itemize}
+        \item $A \oplus_0 B = ((A \cup B) - (A \cap B)) \cup \{0\}$.
+        \item $A \oplus_1 B = A \cup B$.
+    \end{itemize}
+    \item $\sumt(A) + \sumt(B) = \sumt(A \oplus_2 B)$.
+    \item Since $\cup$ and $\cap$ are commutative, $\oplus_k$ is
+    commutative for any $k \in \zee$.
+\end{itemize}
+
+\textbf{Conjecture.} \textit{For all $k \in \zee$.
+\begin{enumerate}
+    \item $A \oplus_k B$ is defined for all $A, B \in \mathcal{P}(\zee)$.
+    \item $\oplus_k$ is associative.
+\end{enumerate}}
+
+If this conjecture is proven true, there are two directions that it can be
+taken, detailed in the following sections.
+
+\section{Zero sum sets with $\oplus_2$}
+
+Let $Z = \{A \mid A \in \mathcal{P}(\zee), \sumt(A) = 0\}$. $Z$ is closed
+on $\oplus_2$, and $\emptyset$ is the identity. It may be interesting to
+investigate the factorization of elements of $Z$ with respect to
+$\oplus_2$ and to find the properties of irreducible elements of $Z$.
+This may also provide some insight regarding the subset sum problem.
+
+\section{Diffie--Hellman}
+
+For $A \in \mathcal{P}(\zee)$, $k \in \zee$, and $n$ a non-negative integer,
+define $A_k^n$ as
+\[\underbrace{A \oplus_k A \oplus_k \ldots \oplus_k A}_{n\text{ times}}\]
+Consider the problem of computing $n$ given $A$, $k$, and $A_k^n$.
+We aim to find a value of $k$ such that there exist infinite sets
+$A$ for which the problem is intractable for sufficiently large $n$.
+If $k = 0$ or $1$, then $A_k^n$ does not change as $n$ increases
+past a certain value, so we will not consider these cases. If $k = -1$,
+then $A_{-1}^n$ will cycle as $n$ increases, so we will also discard this
+case. If $k = 2$ and $\sumt(A) \neq 0$, then $n = \sumt(A_2^n) / \sumt(A)$,
+so finding $n$ is trivial. The tractability in other cases is not
+immediately clear.
+\\[0.5em]
+Suppose such a $k$ exists. If the conjecture is true, then the following
+adaptation of the Diffie--Hellman key exchange can be used to securely
+exchange cryptographic keys:
+\begin{enumerate}
+    \item Alice and Bob publicly agree to use a set
+    $Q \in \mathcal{P}(\zee)$.
+    \item Alice chooses a secret non-negative integer $a$, then sends Bob
+    $A = Q_k^a$.
+    \item Bob chooses a secret non-negative integer $b$, then sends Alice
+    $B = Q_k^b$.
+    \item Alice computes $S = B_k^a$.
+    \item Bob computes $S = A_k^b$.
+    \item Alice and Bob now share a secret (the set $S = Q_k^{ab}$).
+\end{enumerate}
+
+\end{document}
