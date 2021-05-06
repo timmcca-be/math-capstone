@@ -15,6 +15,7 @@
 \newcommand{\srs}[1]{\{#1\}_1^\infty}
 \newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
 \newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+\newcommand{\sumt}{\text{sum}}
 
 \newcommand{\env}[2]{\begin{#1}#2\end{#1}}
 \newcommand{\spl}[1]{\begin{split}#1\end{split}}
@@ -28,9 +29,11 @@
 
 \begin{document}
 
-Let $R$ be a ring.
+\section{Introduction}
 
-\textbf{Definition 1.1.} For $A, B \in \mathcal{P}(R)$ and $k \in R$,
+Let $R$ be a ring, and let $k \in R$.
+
+\textbf{Definition 1.1.} For $A, B \in \mathcal{P}(R)$,
 \[A \oplus_k B = \begin{cases}
     A & B = \emptyset \\
     B & A = \emptyset \\
@@ -65,7 +68,7 @@ produces a result for all inputs. We will show that, as long
 as its inputs are finite sets, it will produce an output
 in a finite number of steps.
 
-\textbf{Definition 1.2.} For $A, B \in \mathcal{P}(R)$ and $k \in R$,
+\textbf{Definition 1.2.} For $A, B \in \mathcal{P}(R)$,
 $A \oplus_k B$ is \textit{defined} if it can be computed in a finite
 number of steps.
 
@@ -108,12 +111,11 @@ so it cannot infinitely decrease. This is a contradiction---therefore,
 $A \oplus_k B$ must be defined. $\blacksquare$
 
 \textbf{Corollary 1.1.} \textit{
-    For all finite $A, B \in \mathcal{P}(R)$
-    and for any $k \in R$,
+    For all finite $A, B \in \mathcal{P}(R)$,
     $A \oplus_k B$ is finite.
 }
 
-Let $A, B \in \mathcal{P}(R)$ be finite, and let $k \in R$.
+Let $A, B \in \mathcal{P}(R)$ be finite.
 Then, with $A' = ((A \cup B) - (A \cap B))$ and
 $B' = \{nk \mid n \in (A \cap B)\}$, we find
 
@@ -136,12 +138,11 @@ so $A \oplus_k B = C$ is finite. $\blacksquare$
 Next, we will show that $\oplus_k$ is commutative.
 
 \textbf{Theorem 1.2.} \textit{
-    For all finite $A, B \in \mathcal{P}(R)$
-    and for any $k \in R$,
+    For all finite $A, B \in \mathcal{P}(R)$,
     $A \oplus_k B = B \oplus_k A$.
 }
 
-Let $A, B \in \mathcal{P}(R)$, $k \in R$. Then,
+Let $A, B \in \mathcal{P}(R)$. Then,
 \[\begin{split}
     A \oplus_k B
     &= ((A \cup B) - (A \cap B)) \oplus_k \{nk \mid n \in (A \cap B)\} \\
@@ -151,9 +152,24 @@ Let $A, B \in \mathcal{P}(R)$, $k \in R$. Then,
 This proves the theorem. $\blacksquare$
 
 \textbf{Theorem 1.3.} \textit{
-    For all finite $A, B, C \in \mathcal{P}(R)$
-    and for any $k \in R$,
-    $(A \oplus_k B) \oplus C = A \oplus_k (B \oplus C)$.
+    For all finite $A, B, C \in \mathcal{P}(R)$,
+    $(A \oplus_k B) \oplus_k C = A \oplus_k (B \oplus_k C)$.
 }
+
+No idea how to do this. $\blacksquare$
+
+\section{Finite fields}
+
+Let $p$ be a prime.
+
+\textbf{Theorem 2.1.} \textit{
+    For all $A, B \in \mathcal{P}(\zee_p)$,
+    $\sumt(A) + \sumt(B) = \sumt(A \oplus_{[2]} B)$.
+}
+
+Pretty straightforward, just need to do it.
+I want to come up with a better format for these
+semi-inductive proofs (like Corollary 1.1)
+first. $\blacksquare$
 
 \end{document}
