@@ -36,7 +36,7 @@ Let $R$ be a ring, and let $k \in R$.
 \textbf{Definition 1.1.} For $A, B \in \mathcal{P}(R)$, we define
 $\eta_k: \mathcal{P}(R) \times \mathcal{P}(R)
 \rightarrow \mathcal{P}(R) \times \mathcal{P}(R)$ as
-\[\eta_k(A, B) = ((A \cup B) - (A \cap B), \{nk \mid n \in (A \cap B)\})\]
+\[\eta_k(A, B) = ((A \cup B) - (A \cap B), \{mk \mid m \in (A \cap B)\})\]
 For $0 \leq n \in \N$, $\eta_k^{(n)}$ denotes $\eta_k$ composed
 with itself $n$ times. $\pi_1 \circ \eta_k^{(n)}$ denotes the first
 element of the output of $\eta_k^{(n)}$, and $\pi_2 \circ \eta_k^{(n)}$
@@ -56,8 +56,8 @@ Suppose $n = 1$. Then,
 \[\begin{split}
     \eta_k(A, \emptyset)
     &= ((A \cup \emptyset) - (A \cap \emptyset),
-    \{nk \mid n \in (A \cap \emptyset)\}) \\
-    &= (A - \emptyset, \{nk \mid n \in \emptyset\}) \\
+    \{mk \mid m \in (A \cap \emptyset)\}) \\
+    &= (A - \emptyset, \{mk \mid m \in \emptyset\}) \\
     &= (A, \emptyset)
 \end{split}\]
 This proves the base case.
@@ -176,9 +176,12 @@ the binary operator $\oplus_k: \mathcal{P}_f(R) \times \mathcal{P}_f(R)
 This is equivalent to the following recursive definition:
 \[A \oplus_k B = \begin{cases}
     A & B = \emptyset \\
-    ((A \cup B) - (A \cap B)) \oplus_k \{nk \mid n \in (A \cap B)\}
-        & A \neq \emptyset, B \neq \emptyset
+    ((A \cup B) - (A \cap B)) \oplus_k \{mk \mid m \in (A \cap B)\}
+        & B \neq \emptyset
 \end{cases}\]
+Also note that by Lemma 1.1, in any case,
+\[A \oplus_k B
+= ((A \cup B) - (A \cap B)) \oplus_k \{mk \mid m \in (A \cap B)\}\]
 
 \section{Properties of $\oplus_k$}
 
@@ -194,8 +197,8 @@ follows immediately from this statement.
 We will use induction on $n$. Suppose $n = 1$. Then,
 \[\begin{split}
     \eta_k(A, B)
-    &= ((A \cup B) - (A \cap B), \{nk \mid n \in (A \cap B)\}) \\
-    &= ((B \cup A) - (B \cap A), \{nk \mid n \in (B \cap A)\}) \\
+    &= ((A \cup B) - (A \cap B), \{mk \mid m \in (A \cap B)\}) \\
+    &= ((B \cup A) - (B \cap A), \{mk \mid m \in (B \cap A)\}) \\
     &= \eta_k(B, A)
 \end{split}\]
 This proves the base case. Now, suppose the hypothesis holds
@@ -208,11 +211,195 @@ for $n$. We will show that it holds for $n+1$.
 This proves the inductive step, completing the proof of the
 lemma. $\blacksquare$
 
+\textbf{Lemma 2.1.} \textit{
+    Let $A, B \in \mathcal{P}_f(R)$. If $A \cap B = \emptyset$,
+    then $A \oplus_k B = A \cup B$.
+}
+
+Let $A, B \in \mathcal{P}_f(R)$ with $A \cap B = \emptyset$.
+Then,
+\[\begin{split}
+A \oplus_k B
+&= ((A \cup B) - (A \cap B))
+    \oplus_k \{mk \mid m \in (A \cap B)\} \\
+&= ((A \cup B) - \emptyset)
+    \oplus_k \{mk \mid m \in \emptyset\} \\
+&= (A \cup B) \oplus_k \emptyset \\
+\text{(by Lemma 1.1)}\quad
+&= A \cup B
+\end{split}\]
+This proves the lemma. $\blacksquare$
+
+\textbf{Lemma 2.2.} \textit{
+    For any $A, B, C \in \mathcal{P}_f(R)$,
+    if one or more of $A$, $B$, or $C$ is empty,
+    then
+    $(A \oplus_k B) \oplus_k C
+    = A \oplus_k (B \oplus_k C)$.
+}
+
+Suppose $A = \emptyset$. Then,
+\[\begin{split}
+    (A \oplus_k B) \oplus_k C
+    &= (\emptyset \oplus_k B) \oplus_k C \\
+    &= B \oplus_k C \\
+    &= \emptyset \oplus_k (B \oplus_k C) \\
+    &= A \oplus_k (B \oplus_k C)
+\end{split}\]
+Suppose $B = \emptyset$. Then,
+\[\begin{split}
+    (A \oplus_k B) \oplus_k C
+    &= (A \oplus_k \emptyset) \oplus_k C \\
+    &= A \oplus_k C \\
+    &= A \oplus_k (\emptyset \oplus_k C) \\
+    &= A \oplus_k (B \oplus_k C)
+\end{split}\]
+Suppose $C = \emptyset$. Then,
+\[\begin{split}
+    (A \oplus_k B) \oplus_k C
+    &= (A \oplus_k B) \oplus_k \emptyset \\
+    &= A \oplus_k B \\
+    &= A \oplus_k (B \oplus_k \emptyset) \\
+    &= A \oplus_k (B \oplus_k C)
+\end{split}\]
+This proves the lemma. $\blacksquare$
+
+\textbf{Lemma 2.3.} \textit{
+    For any $A, B, C \in \mathcal{P}_f(R)$,
+    if $\abs{A} = \abs{B} = \abs{C} = 1$,
+    then
+    $(A \oplus_k B) \oplus_k C
+    = A \oplus_k (B \oplus_k C)$.
+}
+
+Let $A, B, C \in \mathcal{P}_f(R)$
+with $\abs{A} = \abs{B} = \abs{C} = 1$.
+Let $a, b, c \in R$ such that
+$A = \{a\}$, $B = \{b\}$, and $C = \{c\}$.
+We will fix $a$ and consider the various possible relationships
+between $a$, $b$, and $c$.
+
+Suppose $c = a$. Then,
+\[\begin{split}
+    (A \oplus_k B) \oplus_k C
+    &= (\{a\} \oplus_k \{b\}) \oplus_k \{c\} \\
+    &= (\{a\} \oplus_k \{b\}) \oplus_k \{a\} \\
+    \text{(by Theorem 2.1)}\quad
+    &= \{a\} \oplus_k (\{a\} \oplus_k \{b\}) \\
+    \text{(by Theorem 2.1)}\quad
+    &= \{a\} \oplus_k (\{b\} \oplus_k \{a\}) \\
+    &= A \oplus_k (B \oplus_k C)
+\end{split}\]
+Therefore, if $c = a$, the lemma holds. We will now only
+consider the cases where $c \neq a$.
+
+Suppose $a = b$. Consider the following cases:
+\begin{itemize}
+    \item Suppose $c = ka$. Then,
+    \[\begin{split}
+        (A \oplus_k B) \oplus_k C
+        &= (\{a\} \oplus_k \{b\}) \oplus_k \{c\} \\
+        &= (\{a\} \oplus_k \{a\}) \oplus_k \{ka\} \\
+        &= \{ka\} \oplus_k \{ka\} \\
+        &= \{k^2a\} \\
+        &= \{a\} \oplus_k \{a, ka\} \\
+        &= \{a\} \oplus_k (\{a\} \oplus_k \{ka\}) \\
+        &= A \oplus_k (B \oplus_k C)
+    \end{split}\]
+    \item Suppose $c \neq ka$. Then,
+    \[\begin{split}
+        (A \oplus_k B) \oplus_k C
+        &= (\{a\} \oplus_k \{b\}) \oplus_k \{c\} \\
+        &= (\{a\} \oplus_k \{a\}) \oplus_k \{c\} \\
+        &= \{ka\} \oplus_k \{c\} \\
+        &= \{ka, c\} \\
+        &= \{a\} \oplus_k \{a, c\} \\
+        &= \{a\} \oplus_k (\{a\} \oplus_k \{c\}) \\
+        &= A \oplus_k (B \oplus_k C)
+    \end{split}\]
+\end{itemize}
+Therefore, if $a = b$, then the lemma holds.
+Using commutativity, we can rearrange $A \oplus_k (B \oplus_k C)$
+to $(C \oplus_k B) \oplus_k A$ and apply the same reasoning
+above to find that, if $b = c$, then
+$(C \oplus_k B) \oplus_k A = C \oplus_k (B \oplus_k A)$,
+or equivalently
+$(A \oplus_k B) \oplus_k C = A \oplus_k (B \oplus_k C)$.
+
+Suppose $a \neq b$, $b \neq c$, and $c \neq a$. Then,
+\[\begin{split}
+    (A \oplus_k B) \oplus_k C
+    &= (\{a\} \oplus_k \{b\}) \oplus_k \{c\} \\
+    &= \{a, b\} \oplus_k \{c\} \\
+    &= \{a, b, c\}) \\
+    &= \{a\} \oplus_k \{b, c\} \\
+    &= \{a\} \oplus_k (\{b\} \oplus_k \{c\}) \\
+    &= A \oplus_k (B \oplus_k C)
+\end{split}\]
+We have proved the lemma in the cases where:
+\begin{enumerate}
+    \item $a = b$
+    \item $b = c$
+    \item $c = a$
+    \item $a \neq b$, $b \neq c$, and $c \neq a$
+\end{enumerate}
+If 1, 2, and 3 are false, then 4 is true. Therefore,
+in all cases, the lemma holds.
+$\blacksquare$
+
 \textbf{Theorem 2.2 (Associativity of $\oplus_k$).} \textit{
     For any $A, B, C \in \mathcal{P}_f(R)$,
     $(A \oplus_k B) \oplus_k C = A \oplus_k (B \oplus_k C)$.
 }
 
-Just take my word for it. $\blacksquare$
+Let $n \in \N$ such that $n \geq \abs{A}$, $n \geq \abs{B}$, and
+$n \geq \abs{C}$. We will refer to this property as $n$ being
+an \textit{upper bound}, and we will use induction on $n$.
+
+Let $A, B, C \in \mathcal{P}_f(R)$
+such that 1 is an upper bound.
+If any of $A$, $B$,
+or $C$ is empty, then Lemma 2.2 completes the proof.
+If they are all non-empty, then
+$\abs{A} = \abs{B} = \abs{C} = 1$, so Lemma 2.3
+completes the proof. Thus, the base case holds.
+
+Suppose that the hypothesis holds for a value $n \in \N$.
+We will show that it holds for $n + 1$.
+Let $A, B, C \in \mathcal{P}_f(R)$ such that $n + 1$
+is an upper bound.
+If any of $A$, $B$, or $C$ are empty, then applying
+Lemma 2.3 completes the proof, so we will assume they are
+all non-empty. Let $a \in A$, $b \in B$, and $c \in C$.
+Let $A' = A - \{a\}$, $B' = B - \{b\}$, and $C' = C - \{c\}$.
+$n \geq \abs{A'}$, $n \geq \abs{B'}$, $n \geq \abs{C'}$,
+and $n \geq 1 = \abs{\{a\}} = \abs{\{b\}} = \abs{\{c\}}$,
+so associativity holds for all of these sets. Therefore,
+\[\begin{split}
+    (A \oplus_k B) \oplus_k C
+    &= ((A' \cup \{a\}) \oplus_k (B' \cup \{b\}))
+        \oplus_k (C' \cup \{c\}) \\
+    \text{(by Lemma 2.1)}\quad
+    &= ((A' \oplus_k \{a\}) \oplus_k (B' \oplus_k \{b\}))
+        \oplus_k (C' \oplus_k \{c\}) \\
+    \text{(by inductive hypothesis)}\quad
+    &= (((A' \oplus_k \{a\}) \oplus_k B') \oplus_k \{b\})
+        \oplus_k (C' \oplus_k \{c\}) \\
+    \text{(by inductive hypothesis)}\quad
+    &= ((A' \oplus_k \{a\}) \oplus_k B') \oplus_k
+        (\{b\} \oplus_k (C' \oplus_k \{c\})) \\
+    \text{(by inductive hypothesis)}\quad
+    &= (A' \oplus_k \{a\}) \oplus_k (B' \oplus_k
+        (\{b\} \oplus_k (C' \oplus_k \{c\}))) \\
+    \text{(by inductive hypothesis)}\quad
+    &= (A' \oplus_k \{a\}) \oplus_k ((B' \oplus_k
+        \{b\}) \oplus_k (C' \oplus_k \{c\})) \\
+    &= A \oplus_k (B \oplus_k C) \\
+\end{split}\]
+The chunk above here is not valid, need to fix.
+
+This proves the inductive step, completing the proof of
+the theorem.
+$\blacksquare$
 
 \end{document}
