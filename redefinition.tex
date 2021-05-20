@@ -331,7 +331,7 @@ Suppose $a \neq b$, $b \neq c$, and $c \neq a$. Then,
     (A \oplus_k B) \oplus_k C
     &= (\{a\} \oplus_k \{b\}) \oplus_k \{c\} \\
     &= \{a, b\} \oplus_k \{c\} \\
-    &= \{a, b, c\}) \\
+    &= \{a, b, c\} \\
     &= \{a\} \oplus_k \{b, c\} \\
     &= \{a\} \oplus_k (\{b\} \oplus_k \{c\}) \\
     &= A \oplus_k (B \oplus_k C)
@@ -401,5 +401,15 @@ The chunk above here is not valid, need to fix.
 This proves the inductive step, completing the proof of
 the theorem.
 $\blacksquare$
+
+\textbf{Lemma 2.4.} \textit{
+    For any $A, B \in \mathcal{P}_f(R)$,
+    if $a \in A$, then $\exists r \in \zee$
+    with $r \geq 0$ such that $k^ra \in $
+}
+
+Let $A, B, C \in \mathcal{P}_f(R)$ with $\abs{A} = 1$.
+Let $a \in R$ such that $A = \{a\}$. If $a \not\in B$,
+then $A \oplus_k B = A \cup B = B \cup \{a\}$.
 
 \end{document}

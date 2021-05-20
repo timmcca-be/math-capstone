@@ -91,4 +91,3 @@ if attacker_key == alice_key:
 else:
     print('The attacker\'s key is incorrect')
 print()
-
