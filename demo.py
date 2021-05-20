@@ -1,8 +1,8 @@
 import random, math
 
-multiplier = 2
+multiplier = 3
 # must be prime
-key_size_bits = 121
+key_size_bits = 127
 num_bytes = math.ceil(key_size_bits / 8)
 exponent_size_bits = 512
 
