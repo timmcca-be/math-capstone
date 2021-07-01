@@ -1,6 +1,6 @@
 import random
 
-modulus = 37
+modulus = 127
 multiplier = 2
 
 def generate_random_set():
@@ -20,3 +20,4 @@ for i in range(100000):
     c = generate_random_set()
     if oplus(oplus(a, b), c) != oplus(a, oplus(b, c)):
         print('fail')
+        break

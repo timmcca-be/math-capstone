@@ -1,9 +1,8 @@
-import random, math
+import random
 
-multiplier = 3
+multiplier = 5
 # must be prime
 key_size_bits = 127
-num_bytes = math.ceil(key_size_bits / 8)
 exponent_size_bits = 512
 
 def eta(a, b):

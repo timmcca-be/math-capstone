@@ -1,0 +1,122 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{graphicx,tikz}
+\usepackage{geometry}
+
+\geometry{margin=1in}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\newcommand{\code}[1]{{\fontfamily{pcr}\selectfont #1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\srs}[1]{\{#1\}_1^\infty}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+
+\newcommand{\env}[2]{\begin{#1}#2\end{#1}}
+\newcommand{\spl}[1]{\begin{split}#1\end{split}}
+\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+
+\newcommand{\zee}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\arr}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+
+\begin{document}
+
+\setcounter{section}{2}
+\section{Introduction to Modular Arithmetic}
+
+This section introduces the ideas and notation we will use regarding
+modular arithmetic.
+Theorems are presented without proof,
+as they are all already well-established.
+
+\textbf{Definition 3.1.} For a positive integer $n$, the set of integers
+modulo $n$ is denoted $\zee_n$.
+
+\textbf{Theorem 3.1.} For any positive integer $n$, $\zee_n$ is a ring.
+
+\textbf{Theorem 3.2.} For any prime $p$, $\zee_p$ is a field.
+
+\textbf{Definition 3.2.} For any $k, n \in \N$, the \textit{order
+of $k$ modulo $n$} is the least $r \in \N$ such that
+$k^r \equiv 0$ or 1 $\mod n$.
+
+\textbf{Definition 3.3.} The \textit{Euler totient} of a
+positive integer $n$,
+denoted $\phi(n)$, is the number of positive integers less than $n$
+that are coprime to $n$.
+
+\textbf{Theorem 3.3.} For any prime $p$, $\phi(p) = p - 1$.
+
+\textbf{Theorem 3.4.} For any $k \in \zee, n \in \N$, if $r$ is the order of
+$k$ modulo $n$, then $r \leq \phi(n)$.
+
+\textbf{Theorem 3.5.} For any $k \in \zee, n \in \N$ with
+$\gcd(k, n) = 1$, there exists no $m \in \zee$ such that
+$km \equiv 0 \mod n$.
+
+\textbf{Definition 3.4.} We call a positive integer $k$ a
+\textit{primitive root} modulo $n$ if the order of $k$ modulo $n$
+is $\phi(n)$.
+
+\section{$\oplus_k$ over $\zee_n$}
+
+Let $n \in \N$, and let $k \in \zee_n$.
+
+\textbf{Definition 4.1.} For any $S \subseteq \zee_n$ and $r \in \N$,
+$S^r = \underbrace{S \oplus_k S \oplus_k \ldots \oplus_k S}
+_{r\text{ times}}$
+
+\textbf{Definition 4.2.} For any $S \subseteq \zee_n$, the \textit{order}
+of $S$ is the least $r \in \N$ such that $\exists r' \in \N$ with
+$r' < r$ and $S^{r'} = S^r$.
+
+\textbf{Lemma 4.1.} \textit{For any $S \in \zee_n$,
+$S^2 = \{sk \mid s \in S\}$.}
+
+Let $S \subseteq \zee_n$.
+Then, $S \cap S = S$, and $S \cup S - S \cap S = \emptyset$.
+Thus,
+\[\begin{split}
+S^2 &= S \oplus_k S \\
+&= (S \cup S - S \cap S) \oplus_k \{sk \mid s \in S \cap S\} \\
+&= \emptyset \oplus_k \{sk \mid s \in S\} \\
+&= \{sk \mid s \in S\}
+\end{split}\]
+This proves the lemma. $\blacksquare$
+
+\textbf{Theorem 4.1.} \textit{Suppose $\gcd(k, n) = 1$.
+Let $r$ be the order of $k$ modulo $n$.
+Then, the order of a set $S \subseteq \zee_n$ cannot exceed $2^r$.}
+
+Suppose associativity holds. Let $S \subseteq \zee_n$.
+Then,
+\[\begin{split}
+    S^{2^r} &= (S^2)^{2^{r-1}} \\
+    \text{(by Lemma 4.1)} &= (\{sk \mid s \in S\})^{2^{r-1}} \\
+    &= ((\{sk \mid s \in S\})^2)^{2^{r-2}} \\
+    \text{(by Lemma 4.1)} &= (\{sk^2 \mid s \in S\})^{2^{r-2}}
+\end{split}\]
+By repeated applications of Lemma 4.1, we find
+\[\begin{split}
+    S^{2^r} &= \{sk^r \mid s \in S\}^{2^{r-r}} \\
+    &= \{sk^r \mid s \in S\}
+\end{split}\]
+Since $r$ is the order of $k$ modulo $n$, $k^r \equiv 0$ or $1 \mod n$.
+By Theorem 3.5, $k^r = k \cdot k^{r-1} \not\equiv 0 \mod n$, so
+$k^r \equiv 1 \mod n$. Therefore,
+\[\begin{split}
+    S^{2^r} &= \{sk^r \mid s \in S\} \\
+    &= \{s \mid s \in S\} \\
+    &= S
+\end{split}\]
+This proves the theorem. $\blacksquare$
+\footnote{This depends on associativity, which has not yet been proven.}
+
+\end{document}

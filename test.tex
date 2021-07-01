@@ -27,21 +27,6 @@
 
 \begin{document}
 
-$D = A \cap C$
 
-$A' = A - D$
-
-$C' = C - D$
-\[\begin{split}
-    (A \oplus_k B) \oplus_k C
-    &= ((A' \oplus_k D) \oplus_k B) \oplus_k (D \oplus_k C') \\
-    &= (A' \oplus_k (D \oplus_k B)) \oplus_k (D \oplus_k C') \\
-    &= ((A' \oplus_k (D \oplus_k B)) \oplus_k D) \oplus_k C' \\
-    &= (D \oplus_k (A' \oplus_k (D \oplus_k B))) \oplus_k C' \\
-    &= ((D \oplus_k A') \oplus_k (D \oplus_k B)) \oplus_k C' \\
-    &= ((A' \oplus_k D) \oplus_k (D \oplus_k B)) \oplus_k C' \\
-    &= (A' \oplus_k (D \oplus_k (D \oplus_k B))) \oplus_k C' \\
-    &= C' \oplus_k (A' \oplus_k (D \oplus_k (D \oplus_k B))) \\
-\end{split}\]
 
 \end{document}
