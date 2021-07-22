@@ -67,7 +67,7 @@ is $\phi(n)$.
 
 \section{$\oplus_k$ over $\zee_n$}
 
-Let $n \in \N$, and let $k \in \zee_n$.
+Let $n \in \N$, and let $k \in \zee_n$ with $\gcd(k, n) = 1$.
 
 \textbf{Definition 4.1.} For any $S \subseteq \zee_n$ and $r \in \N$,
 $S^r = \underbrace{S \oplus_k S \oplus_k \ldots \oplus_k S}
@@ -91,8 +91,7 @@ S^2 &= S \oplus_k S \\
 \end{split}\]
 This proves the lemma. $\blacksquare$
 
-\textbf{Theorem 4.1.} \textit{Suppose $\gcd(k, n) = 1$.
-Let $r$ be the order of $k$ modulo $n$.
+\textbf{Theorem 4.1.} \textit{Let $r$ be the order of $k$ modulo $n$.
 Then, the order of a set $S \subseteq \zee_n$ cannot exceed $2^r$.}
 
 Suppose associativity holds. Let $S \subseteq \zee_n$.
@@ -118,5 +117,111 @@ $k^r \equiv 1 \mod n$. Therefore,
 \end{split}\]
 This proves the theorem. $\blacksquare$
 \footnote{This depends on associativity, which has not yet been proven.}
+
+\textbf{Definition 4.3.} Let $A \subseteq \zee_n$, and let $b \in \zee_n$.
+The \textit{prevalence of $b$ in $A$} is the least $v \in \N$ such
+that $bk^v \not\in A$. If no such $v$ exists, it is the order
+of $k$ modulo $n$.
+
+\textbf{Definition 4.4.} Let $A \subseteq \zee_n$, and let $b \in \zee_n$
+with prevalence $v$ in $A$.
+The \textit{prevalence set of $b$ in $A$},
+denoted $P(b, A)$, is $\{b, bk, \ldots, bk^v\}$.
+
+\textbf{Lemma 4.2.} \textit{Let $A \subseteq \zee_n$, and
+let $b \in \zee_n$ with prevalence $v \in \N$ in $A$.
+Then,
+$A \oplus_k \{b\} = (A - P(b, A)) \cup \{bk^v\}$.}
+
+We will perform induction on $v$. Suppose $v = 1$.
+Then, $b^1 = b \not\in A$, so $A \cap \{b\} = \emptyset$.
+Therefore, by Lemma 2.1,
+\[A \oplus_k \{b\} = A \cup \{b\} = (A - \{b\}) \cup \{b\}
+= (A - P(b, A)) \cup \{b\}\]
+This proves the base case.
+
+Suppose the lemma holds when the prevalence is $v-1$. Then,
+\[\begin{split}
+    A \oplus_k \{b\} &=
+    (A \cup \{b\} - A \cap \{b\})
+        \oplus_k \{mk \mid m \in A \cap \{b\}\} \\
+    &= (A - \{b\}) \oplus_k \{bk\}
+\end{split}\]
+If $v$ is the order of $k$ modulo $n$, then
+$bk \cdot k^{v-1} = bk^v = b \not\in (A - \{b\})$,
+so $v-1$ is the prevalence of $bk$ in $A - \{b\}$.
+Otherwise, $bk \cdot k^{v-1} = bk^v \not\in (A - \{b\})$,
+so $v-1$ is still the prevalence of $bk$ in
+$A - \{b\}$. Therefore, by the inductive hypothesis,
+\[\begin{split}
+    A \oplus_k \{b\}
+    &= (A - \{b\}) \oplus_k \{bk\} \\
+    &= ((A - \{b\})
+        - \{bk, bk \cdot k, \ldots, bk \cdot k^{v-1}\})
+        \cup \{bk \cdot k^{v-1}\} \\
+    &= (A - \{b, bk, \ldots, bk^v\}) \cup \{bk^v\} \\
+    &= (A - P(b, A)) \cup \{bk^v\}
+\end{split}\]
+This completes the inductive step, proving the lemma. $\blacksquare$
+
+\textbf{Lemma 4.3.} \textit{Let $A \subseteq \zee_n$, and
+let $b, c \in \zee_n$.
+If $P(b, A) \cap P(c, A) \neq \emptyset$, then
+either $P(b, A) \subseteq P(c, A)$ or $P(c, A) \subseteq P(b, A)$.}
+
+Let $u, v \in \N$ be the prevalences of $b$ and $c$ respectively in $A$.
+We can suppose without loss of generality that $u \geq v$---if it is not,
+we swap $b$ and $c$.
+Suppose $P(b, A) \cap P(c, A) \neq \emptyset$. Then,
+$\exists i, j \in \N$ with $i \leq u$ and $j \leq v$
+such that $bk^i = ck^j$. Since $bk^i \in P(b, A)$, the prevalence of
+$bk^i$ in $A$ is $u - i$. Similarly, the prevalence of $ck^j$ in $A$
+is $v - j$, so we have $u - i = v - j$. Since $u \geq v$, we find
+$i \geq j$.
+
+After simplifying $bk^i = ck^j$, we have $bk^{i-j} = c$. Therefore,
+$P(c, A) = \{bk^{i-j}, bk^{i-j+1}, \ldots bk^u\} \subseteq P(b, A)$.
+Removing the condition that $u \leq v$, we have
+$P(b, A) \subseteq P(c, A)$ or $P(c, A) \subseteq P(b, A)$,
+proving the lemma.
+$\blacksquare$
+
+\newpage
+\textbf{Lemma 4.4.} \textit{Let $A \in \zee_n$, and let $b, c \in R$.
+Then,
+$(A \oplus_k \{b\}) \oplus_k \{c\}
+= (A \oplus_k \{c\}) \oplus_k \{b\}$.}
+
+If $P(b, A) \cap P(c, A) = \emptyset$, then
+$P(c, A) = P(c, (A - P(b, A)) \cup \{bk^u\})$
+and $P(b, A) = P(b, (A - P(c, A)) \cup \{ck^v\})$. Therefore,
+\[\begin{split}
+    (A \oplus_k \{b\}) \oplus_k \{c\}
+    &= ((A - P(b, A)) \cup \{bk^u\}) \oplus_k c \\
+    &= (((A - P(b, A)) \cup \{bk^u\})
+        - P(c, (A - P(b, A)) \cup \{bk^u\})) \cup \{ck^v\} \\
+    &= (((A - P(b, A)) \cup \{bk^u\}) - P(c, A)) \cup \{ck^v\} \\
+    &= (A - P(b, A) - P(c, A)) \cup \{bk^u, ck^v\} \\
+    &= (((A - P(c, A)) \cup \{ck^v\}) - P(b, A)) \cup \{bk^u\} \\
+    &= (((A - P(c, A)) \cup \{ck^v\})
+        - P(b, (A - P(c, A)) \cup \{ck^v\})) \cup \{bk^u\} \\
+    &= ((A - P(c, A)) \cup \{ck^v\}) \oplus_k \{b\} \\
+    &= (A \oplus_k \{c\}) \oplus_k \{b\}
+\end{split}\]
+This proves the lemma when $P(b, A) \cap P(c, A) = \emptyset$.
+
+Suppose $P(b, A) \cap P(c, A) \neq \emptyset$.
+Let $u, v \in \N$ be the prevalences of $b$ and $c$ respectively in $A$.
+We can again suppose without loss of generality that $u \geq v$.
+By Lemma 4.2, we have
+\[(A \oplus_k \{b\}) \oplus_k \{c\}
+= ((A - P(b, A)) \cup \{bk^u\}) \oplus_k \{c\}\]
+Since $P(c, A) \subseteq P(b, A)$, $c \in P(b, A)$.
+Maybe this is going somewhere? $\blacksquare$
+
+\textbf{Lemma 4.5.} \textit{Let $A, B \subseteq \zee_n$,
+and let $c \in \zee_n$. Then,
+$(A \oplus_k \{c\}) \oplus_k B = A \oplus_k (B \oplus_k \{c\})$).}
+
 
 \end{document}
