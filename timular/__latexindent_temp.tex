@@ -1,0 +1,176 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{graphicx,tikz}
+\usepackage{geometry}
+
+\geometry{margin=1in}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\newcommand{\code}[1]{{\fontfamily{pcr}\selectfont #1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\srs}[1]{\{#1\}_1^\infty}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+
+\newcommand{\env}[2]{\begin{#1}#2\end{#1}}
+\newcommand{\spl}[1]{\begin{split}#1\end{split}}
+\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\tim}{\;\text{tim}\;}
+
+\newcommand{\zee}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\arr}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+
+\begin{document}
+
+\setcounter{section}{4}
+\section{Timular Arithmetic}
+
+Let $x \in \N$.
+
+\textbf{Definition 5.1.} Let $a, b \in \zee$.
+Then, $a$ is \textit{similar to $b$ timulo} $x$,
+denoted $a \sim b \tim x$,
+if there exist $c_1, c_2, \ldots, c_r \in \zee$
+with $c_1 \geq 0, c_2 \geq 0, \ldots, c_r \geq 0$
+such that, for some $m_1, m_2, \ldots, m_r \in \zee$
+\[a = c_1x^{m_1} + c_2x^{m_2} + \ldots + c_rx^{m_r}\]
+and for some $n_1, n_2, \ldots, n_r \in \zee$,
+\[b = c_1x^{n_1} + c_2x^{n_2} + \ldots + c_rx^{n_r}\]
+
+
+\textbf{Lemma 5.1.} \textit{Similarity timulo $x$ is a
+tolerance relation.}
+
+First, we will show that it is reflexive. Let $a \in \zee$.
+Then, $a = ax^0 \equiv ax^0 \equiv a \tim x$.
+
+Symmetry is obvious, as similarity is defined without
+regard to the order of $a$ and $b$. This proves the lemma.
+$\blacksquare$
+
+
+\textbf{Definition 5.2.} Let $a, b \in \zee$.
+Then, $a$ is \textit{congruent to $b$ timulo} $x$, denoted
+$a \equiv b \tim x$, if there exist some $d_1, d_2, \ldots, d_s \in \zee$
+such that
+\[a \sim d_1 \sim d_2 \sim \ldots \sim d_s \sim b \tim x\]
+
+\textbf{Theorem 5.1.} \textit{Congruence timulo $x$ is an
+equivalence relation.}
+
+First, we will show that it is reflexive. Let $a \in \zee$.
+By Lemma 5.1, $a \sim a \tim x$, so $a \equiv a \tim x$.
+
+Next, we will show that it is symmetric. Let $a, b \in \zee$.
+Let $d_1, d_2, \ldots, d_s \in \zee$ such that
+\[a \sim d_1 \sim d_2 \sim \ldots \sim d_s \sim b \tim x\]
+Then, by Lemma 5.1,
+\[b \sim d_s \sim d_{s-1} \sim \ldots \sim d_1 \sim a \tim x\]
+Therefore, $b \equiv a \tim x$.
+
+Transitivity clearly follows from Definition 5.2. This proves the
+theorem. $\blacksquare$
+
+\textbf{Theorem 5.2.} \textit{Let $a \in \zee$.
+Then, $\exists b \in \zee$ with $0 \leq b < x$
+such that $a \equiv b \tim x$.}
+
+Obvious descent argument. $\blacksquare$
+
+\textbf{Definition 5.3.} Let $a \in \zee$.
+$b \in \zee$ is the \textit{canonical form of $a$ timulo $x$}
+if $0 \leq b < x$.
+
+\textbf{Definition 5.4.} Let $a \in \zee$. The
+\textit{congruence class of $a$ timulo $x$},
+denoted $(a:x)$, is the set of all $b \in \zee$
+such that $a \equiv b \tim x$.
+
+\textbf{Lemma 5.2.} \textit{Let $a, a' \in \zee$ be
+similar timulo $x$, and let $b \in \zee$. Then,
+$(a + b) \sim (a' + b) \tim x$.}
+
+Let $a = c_1x^{m_1} + c_2x^{m_2} + \ldots + c_rx^{m_r}$,
+and let
+$a' = c_1x^{n_1} + c_2x^{n_2} + \ldots + c_rx^{n_r}$.
+Then,
+\[\begin{split}
+    a + b &= (c_1x^{m_1} + c_2x^{m_2} + \ldots + c_rx^{m_r}) + b \\
+    &= c_1x^{m_1} + c_2x^{m_2} + \ldots + c_rx^{m_r} + bx^0 \\
+    &\sim c_1x^{n_1} + c_2x^{n_2} + \ldots + c_rx^{n_r} + bx^0 \\
+    &\sim (c_1x^{n_1} + c_2x^{n_2} + \ldots + c_rx^{n_r}) + b \\
+    &\sim a' + b \tim x
+\end{split}\]
+This proves the lemma. $\blacksquare$
+
+\newpage
+\textbf{Lemma 5.3.} \textit{Let $a, a' \in \zee$ be
+congruent timulo $x$, and let $b \in \zee$. Then,
+$a + b \equiv a' + b \tim x$.}
+
+Let $d_1, d_2, \ldots, d_s \in \zee$
+such that $a \sim d_1 \sim d_2 \sim \ldots \sim d_s \sim a' \tim x$.
+Then, by Lemma 5.2,
+\[(a + b) \sim (d_1 + b) \sim (d_2 + b) \sim \ldots
+\sim (d_s + b) \sim (a' + b) \tim x\]
+Therefore, $a + b \equiv a' + b \tim x$.
+$\blacksquare$
+
+\textbf{Lemma 5.4.} \textit{Let $a, a' \in \zee$ be
+similar timulo $x$, and let $b \in \zee$. Then,
+$ab \sim a'b \tim x$.}
+
+Let $a = c_1x^{m_1} + c_2x^{m_2} + \ldots + c_rx^{m_r}$,
+and let
+$a' = c_1x^{n_1} + c_2x^{n_2} + \ldots + c_rx^{n_r}$.
+Then,
+\[\begin{split}
+    ab &= (c_1x^{m_1} + c_2x^{m_2} + \ldots + c_rx^{m_r})b \\
+    &= bc_1x^{m_1} + bc_2x^{m_2} + \ldots + bc_rx^{m_r} \\
+    &\sim bc_1x^{n_1} + bc_2x^{n_2} + \ldots + bc_rx^{n_r} \\
+    &\sim (c_1x^{n_1} + c_2x^{n_2} + \ldots + c_rx^{n_r})b \\
+    &\sim a'b \tim x
+\end{split}\]
+This proves the lemma. $\blacksquare$
+
+\textbf{Lemma 5.5.} \textit{Let $a, a' \in \zee$ be
+congruent timulo $x$, and let $b \in \zee$. Then,
+$ab \equiv a'b \tim x$.}
+
+Let $d_1, d_2, \ldots, d_s \in \zee$
+such that $a \sim d_1 \sim d_2 \sim \ldots \sim d_s \sim a' \tim x$.
+Then, by Lemma 5.2,
+\[ab \sim d_1b \sim d_2b \sim \ldots
+\sim d_sb \sim a'b \tim x\]
+Therefore, $ab \equiv a'b \tim x$.
+$\blacksquare$
+
+\textbf{Definition 5.5.} $T(x)$ denotes the set of all
+congruence classes timulo $x$.
+
+\textbf{Definition 5.6.} Let $a, b \in \zee$. Define
+$(a:x) + (b:x)$ by $(a+b:x)$, and define $(a:x) \cdot (b:x)$
+by $(ab:x)$.
+
+\textbf{Definition 5.7.} Let $A \in \zee_p'$. For all $i \in \zee$
+with $0 \leq i \leq p - 2$, let $z_i = 0$ if $k^i \not\in A$,
+and let $z_i = 1$ if $k^i \in A$. Then, define
+$\beta: \mathcal{P}(\zee_p') \rightarrow T(2^{p-1})$ by
+\[\beta(A) = \sum_{i = 0}^{p-2} z_i \cdot 2^{i}\]
+In other words, consider the binary representation of $\beta(A)$.
+The least significant bit is 1 if $k^0 \in A$, and 0 otherwise.
+The next bit is 1 if $k^1 \in A$ and 0 otherwise.
+This continues to the most significant bit,
+which is 1 if $k^{p-2} \in A$ and 0 otherwise.
+
+\textbf{Theorem 5.3.} \textit{Let $A, B \in \zee_p'$.
+Then, $\beta(A \oplus_k B) = \beta(A) + \beta(B)$.}
+
+\end{document}

@@ -28,7 +28,7 @@
 
 \begin{document}
 
-\setcounter{section}{2}
+\setcounter{section}{1}
 \section{Introduction to Modular Arithmetic}
 
 This section introduces the ideas and notation we will use regarding
@@ -36,192 +36,110 @@ modular arithmetic.
 Theorems are presented without proof,
 as they are all already well-established.
 
-\textbf{Definition 3.1.} For a positive integer $n$, the set of integers
+\textbf{Definition 2.1.} For a positive integer $n$, the set of integers
 modulo $n$ is denoted $\zee_n$.
 
-\textbf{Theorem 3.1.} For any positive integer $n$, $\zee_n$ is a ring.
+\textbf{Theorem 2.1.} For any positive integer $n$, $\zee_n$ is a ring.
 
-\textbf{Theorem 3.2.} For any prime $p$, $\zee_p$ is a field.
+\textbf{Theorem 2.2.} For any prime $p$, $\zee_p$ is a field.
 
-\textbf{Definition 3.2.} For any $k, n \in \N$, the \textit{order
+\textbf{Definition 2.2.} For any $k, n \in \N$, the \textit{order
 of $k$ modulo $n$} is the least $r \in \N$ such that
 $k^r \equiv 0$ or 1 $\mod n$.
 
-\textbf{Definition 3.3.} The \textit{Euler totient} of a
+\textbf{Definition 2.3.} The \textit{Euler totient} of a
 positive integer $n$,
 denoted $\phi(n)$, is the number of positive integers less than $n$
 that are coprime to $n$.
 
-\textbf{Theorem 3.3.} For any prime $p$, $\phi(p) = p - 1$.
+\textbf{Theorem 2.3.} For any prime $p$, $\phi(p) = p - 1$.
 
-\textbf{Theorem 3.4.} For any $k \in \zee, n \in \N$, if $r$ is the order of
+\textbf{Theorem 2.4.} For any $k \in \zee, n \in \N$, if $r$ is the order of
 $k$ modulo $n$, then $r \leq \phi(n)$.
 
-\textbf{Theorem 3.5.} For any $k \in \zee, n \in \N$ with
+\textbf{Theorem 2.5.} For any $k \in \zee, n \in \N$ with
 $\gcd(k, n) = 1$, there exists no $m \in \zee$ such that
 $km \equiv 0 \mod n$.
 
-\textbf{Definition 3.4.} We call a positive integer $k$ a
+\textbf{Definition 2.4.} We call a positive integer $k$ a
 \textit{primitive root} modulo $n$ if the order of $k$ modulo $n$
 is $\phi(n)$.
 
-\section{$\oplus_k$ over $\zee_n$}
+\section{$\oplus_k$ over $\zee_p$}
 
-Let $n \in \N$, and let $k \in \zee_n$ with $\gcd(k, n) = 1$.
+\textbf{Definition 3.1.} $\zee_p'$ denotes the set of all
+$A \in \zee_p$ for which $0 \not\in A$.
 
-\textbf{Definition 4.1.} For any $S \subseteq \zee_n$ and $r \in \N$,
-$S^r = \underbrace{S \oplus_k S \oplus_k \ldots \oplus_k S}
-_{r\text{ times}}$
+\textbf{Definition 3.2.} Let $A \in \zee_p'$. For all $i \in \zee$
+with $0 \leq i \leq p - 2$, let $z_i = 0$ if $k^i \not\in A$,
+and let $z_i = 1$ if $k^i \in A$. Then, define
+$\beta: \mathcal{P}(\zee_p') \rightarrow \zee$ by
+\[\beta(A) = \sum_{i = 0}^{p-2} z_i \cdot 2^{i}\]
+In other words, consider the binary representation of $\beta(A)$.
+The least significant bit is 1 if $k^0 \in A$, and 0 otherwise.
+The next bit is 1 if $k^1 \in A$ and 0 otherwise.
+This continues to the most significant bit,
+which is 1 if $k^{p-2} \in A$ and 0 otherwise.
 
-\textbf{Definition 4.2.} For any $S \subseteq \zee_n$, the \textit{order}
-of $S$ is the least $r \in \N$ such that $\exists r' \in \N$ with
-$r' < r$ and $S^{r'} = S^r$.
+Consider the bitwise operators $\&$ (AND) and $\wedge$ (XOR).
+Let $L: \zee \rightarrow \zee$ denote left rotation by one bit
+over the $p-1$ least significant bits.
+Under this construction,
+\[\beta(A \cup B - A \cap B) = \beta(A) \wedge \beta(B)\]
+and
+\[\beta(\{mk \mid m \in A \cap B\}) = L(\beta(A) \mathbin{\&} \beta(B))\]
 
-\textbf{Lemma 4.1.} \textit{For any $S \in \zee_n$,
-$S^2 = \{sk \mid s \in S\}$.}
+\textbf{Definition 3.3.} Consider the bitwise operators $\&$ (AND)
+and $\wedge$ (XOR).
+Let $L: \zee \rightarrow \zee$ denote left rotation by one bit
+over the $p-1$ least significant bits.
+Define $\gamma: \zee \rightarrow \zee$
+by
+\[\gamma(x, y) = (x \wedge y, L(x \mathbin{\&} y))\]
 
-Let $S \subseteq \zee_n$.
-Then, $S \cap S = S$, and $S \cup S - S \cap S = \emptyset$.
-Thus,
-\[\begin{split}
-S^2 &= S \oplus_k S \\
-&= (S \cup S - S \cap S) \oplus_k \{sk \mid s \in S \cap S\} \\
-&= \emptyset \oplus_k \{sk \mid s \in S\} \\
-&= \{sk \mid s \in S\}
-\end{split}\]
-This proves the lemma. $\blacksquare$
+Note that repeated applications of $\gamma$ are equivalent to
+repeated applications of $\eta_k$, so for some $N \in \N$,
+\[\pi_1 \circ \gamma^N(\beta(A), \beta(B)) = \beta(A \oplus_k B)\]
 
-\textbf{Theorem 4.1.} \textit{Let $r$ be the order of $k$ modulo $n$.
-Then, the order of a set $S \subseteq \zee_n$ cannot exceed $2^r$.}
-
-Suppose associativity holds. Let $S \subseteq \zee_n$.
-Then,
-\[\begin{split}
-    S^{2^r} &= (S^2)^{2^{r-1}} \\
-    \text{(by Lemma 4.1)} &= (\{sk \mid s \in S\})^{2^{r-1}} \\
-    &= ((\{sk \mid s \in S\})^2)^{2^{r-2}} \\
-    \text{(by Lemma 4.1)} &= (\{sk^2 \mid s \in S\})^{2^{r-2}}
-\end{split}\]
-By repeated applications of Lemma 4.1, we find
-\[\begin{split}
-    S^{2^r} &= \{sk^r \mid s \in S\}^{2^{r-r}} \\
-    &= \{sk^r \mid s \in S\}
-\end{split}\]
-Since $r$ is the order of $k$ modulo $n$, $k^r \equiv 0$ or $1 \mod n$.
-By Theorem 3.5, $k^r = k \cdot k^{r-1} \not\equiv 0 \mod n$, so
-$k^r \equiv 1 \mod n$. Therefore,
-\[\begin{split}
-    S^{2^r} &= \{sk^r \mid s \in S\} \\
-    &= \{s \mid s \in S\} \\
-    &= S
-\end{split}\]
-This proves the theorem. $\blacksquare$
-\footnote{This depends on associativity, which has not yet been proven.}
-
-\textbf{Definition 4.3.} Let $A \subseteq \zee_n$, and let $b \in \zee_n$.
-The \textit{prevalence of $b$ in $A$} is the least $v \in \N$ such
-that $bk^v \not\in A$. If no such $v$ exists, it is the order
-of $k$ modulo $n$.
-
-\textbf{Definition 4.4.} Let $A \subseteq \zee_n$, and let $b \in \zee_n$
-with prevalence $v$ in $A$.
-The \textit{prevalence set of $b$ in $A$},
-denoted $P(b, A)$, is $\{b, bk, \ldots, bk^v\}$.
-
-\textbf{Lemma 4.2.} \textit{Let $A \subseteq \zee_n$, and
-let $b \in \zee_n$ with prevalence $v \in \N$ in $A$.
-Then,
-$A \oplus_k \{b\} = (A - P(b, A)) \cup \{bk^v\}$.}
-
-We will perform induction on $v$. Suppose $v = 1$.
-Then, $b^1 = b \not\in A$, so $A \cap \{b\} = \emptyset$.
-Therefore, by Lemma 2.1,
-\[A \oplus_k \{b\} = A \cup \{b\} = (A - \{b\}) \cup \{b\}
-= (A - P(b, A)) \cup \{b\}\]
-This proves the base case.
-
-Suppose the lemma holds when the prevalence is $v-1$. Then,
-\[\begin{split}
-    A \oplus_k \{b\} &=
-    (A \cup \{b\} - A \cap \{b\})
-        \oplus_k \{mk \mid m \in A \cap \{b\}\} \\
-    &= (A - \{b\}) \oplus_k \{bk\}
-\end{split}\]
-If $v$ is the order of $k$ modulo $n$, then
-$bk \cdot k^{v-1} = bk^v = b \not\in (A - \{b\})$,
-so $v-1$ is the prevalence of $bk$ in $A - \{b\}$.
-Otherwise, $bk \cdot k^{v-1} = bk^v \not\in (A - \{b\})$,
-so $v-1$ is still the prevalence of $bk$ in
-$A - \{b\}$. Therefore, by the inductive hypothesis,
-\[\begin{split}
-    A \oplus_k \{b\}
-    &= (A - \{b\}) \oplus_k \{bk\} \\
-    &= ((A - \{b\})
-        - \{bk, bk \cdot k, \ldots, bk \cdot k^{v-1}\})
-        \cup \{bk \cdot k^{v-1}\} \\
-    &= (A - \{b, bk, \ldots, bk^v\}) \cup \{bk^v\} \\
-    &= (A - P(b, A)) \cup \{bk^v\}
-\end{split}\]
-This completes the inductive step, proving the lemma. $\blacksquare$
-
-\textbf{Lemma 4.3.} \textit{Let $A \subseteq \zee_n$, and
-let $b, c \in \zee_n$.
-If $P(b, A) \cap P(c, A) \neq \emptyset$, then
-either $P(b, A) \subseteq P(c, A)$ or $P(c, A) \subseteq P(b, A)$.}
-
-Let $u, v \in \N$ be the prevalences of $b$ and $c$ respectively in $A$.
-We can suppose without loss of generality that $u \geq v$---if it is not,
-we swap $b$ and $c$.
-Suppose $P(b, A) \cap P(c, A) \neq \emptyset$. Then,
-$\exists i, j \in \N$ with $i \leq u$ and $j \leq v$
-such that $bk^i = ck^j$. Since $bk^i \in P(b, A)$, the prevalence of
-$bk^i$ in $A$ is $u - i$. Similarly, the prevalence of $ck^j$ in $A$
-is $v - j$, so we have $u - i = v - j$. Since $u \geq v$, we find
-$i \geq j$.
-
-After simplifying $bk^i = ck^j$, we have $bk^{i-j} = c$. Therefore,
-$P(c, A) = \{bk^{i-j}, bk^{i-j+1}, \ldots bk^u\} \subseteq P(b, A)$.
-Removing the condition that $u \leq v$, we have
-$P(b, A) \subseteq P(c, A)$ or $P(c, A) \subseteq P(b, A)$,
-proving the lemma.
-$\blacksquare$
+\textbf{Definition 3.4.} Define $\zeta: \mathcal{P}(\zee_p')
+\rightarrow \zee[x]/(x^{2^{p-1}}-x)$ by
+\[\zeta(A) = x^{\beta(A)}\]
 
 \newpage
-\textbf{Lemma 4.4.} \textit{Let $A \in \zee_n$, and let $b, c \in R$.
-Then,
-$(A \oplus_k \{b\}) \oplus_k \{c\}
-= (A \oplus_k \{c\}) \oplus_k \{b\}$.}
+\textbf{Theorem 3.1.} \textit{Let $A, B \subseteq \zee_p'$.
+Then, $\zeta(A) \cdot \zeta(B) = \zeta(A \oplus_k B)$.}
 
-If $P(b, A) \cap P(c, A) = \emptyset$, then
-$P(c, A) = P(c, (A - P(b, A)) \cup \{bk^u\})$
-and $P(b, A) = P(b, (A - P(c, A)) \cup \{ck^v\})$. Therefore,
+Let $x, y \in \zee$ with $0 \leq x < 2^{p-1}$
+and $0 \leq y < 2^{p-1}$.
+Consider the following recursive definition of addition:
+\[x + y = (x \wedge y) + 2(x \mathbin{\&} y)\]
+Note that if $x + y < 2^{p-1}$, then
+$2(x \mathbin{\&} y) < 2^{p-1}$, so the $(p-1)$th
+least siginificant bit of $x \mathbin{\&} y$ is zero,
+and $2(x \mathbin{\&} y) = L(x \mathbin{\&} y)$.
+Therefore, in the case that $\beta(A) + \beta(B) < 2^{p-1}$,
+we find
+$\beta(A) + \beta(B) = \beta(A \oplus_k B)$,
+which proves the theorem.
+
+If $x + y \geq 2^{p-1}$, then after some number of iterations,
+we will find $x', y' \in \zee$ for which
+$2^{p-1} \leq 2(x \mathbin{\&} y) < 2^p$.
+Note that, since $x + y < 2 \cdot 2^{p-1} = 2^p$, this will occur exactly
+once in all the iterations. In this case,
+$2(x \mathbin{\&} y) - 2^{p-1} + 1 = L(x \mathbin{\&} y)$.
+Therefore, if $\beta(A) + \beta(B) \geq 2^{p-1}$, then
+$\beta(A \oplus_k B) = \beta(A) + \beta(B) - 2^{p-1} + 1$.
+Thus,
 \[\begin{split}
-    (A \oplus_k \{b\}) \oplus_k \{c\}
-    &= ((A - P(b, A)) \cup \{bk^u\}) \oplus_k c \\
-    &= (((A - P(b, A)) \cup \{bk^u\})
-        - P(c, (A - P(b, A)) \cup \{bk^u\})) \cup \{ck^v\} \\
-    &= (((A - P(b, A)) \cup \{bk^u\}) - P(c, A)) \cup \{ck^v\} \\
-    &= (A - P(b, A) - P(c, A)) \cup \{bk^u, ck^v\} \\
-    &= (((A - P(c, A)) \cup \{ck^v\}) - P(b, A)) \cup \{bk^u\} \\
-    &= (((A - P(c, A)) \cup \{ck^v\})
-        - P(b, (A - P(c, A)) \cup \{ck^v\})) \cup \{bk^u\} \\
-    &= ((A - P(c, A)) \cup \{ck^v\}) \oplus_k \{b\} \\
-    &= (A \oplus_k \{c\}) \oplus_k \{b\}
+    \zeta(A \oplus_k B) &= x^{\beta(A) + \beta(B) - 2^{p-1} + 1} \\
+    &= x^{\beta(A) + \beta(B) - 2^{p-1} + 1} +
+        x^{\beta(A) + \beta(B) - 2^{p-1}}(x^{2^{p-1}} - x) \\
+    &= x^{\beta(A) + \beta(B) - 2^{p-1} + 1} +
+        x^{\beta(A) + \beta(B)} - x^{\beta(A) + \beta(B) - 2^{p-1} + 1} \\
+    &= x^{\beta(A) + \beta(B)} \\
+    &= \zeta(A) \cdot \zeta(B)
 \end{split}\]
-This proves the lemma when $P(b, A) \cap P(c, A) = \emptyset$.
-
-Suppose $P(b, A) \cap P(c, A) \neq \emptyset$.
-Let $u, v \in \N$ be the prevalences of $b$ and $c$ respectively in $A$.
-We can again suppose without loss of generality that $u \geq v$.
-By Lemma 4.2, we have
-\[(A \oplus_k \{b\}) \oplus_k \{c\}
-= ((A - P(b, A)) \cup \{bk^u\}) \oplus_k \{c\}\]
-Since $P(c, A) \subseteq P(b, A)$, $c \in P(b, A)$.
-Maybe this is going somewhere? $\blacksquare$
-
-\textbf{Lemma 4.5.} \textit{Let $A, B \subseteq \zee_n$,
-and let $c \in \zee_n$. Then,
-$(A \oplus_k \{c\}) \oplus_k B = A \oplus_k (B \oplus_k \{c\})$).}
-
+This completes the proof of the theorem. $\blacksquare$
 
 \end{document}
