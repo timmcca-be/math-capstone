@@ -51,6 +51,19 @@ def find_set_order(start, multiplier, modulus):
     return order
 
 
+def exponentiate(start, power, multiplier, modulus):
+    result = set()
+    current = start
+    while power > 0:
+        if power % 2 == 0:
+            current = oplus(current, current, multiplier, modulus)
+            power /= 2
+        else:
+            result = oplus(result, current, multiplier, modulus)
+            power -= 1
+    return result
+
+
 def check(p, k):
     for size in range(1, p - 1):
         for _ in range(100):
@@ -66,4 +79,4 @@ print('p,k,size,order')
 # for p in primes:
 #     for k in find_primitive_roots(p):
 #         check(p, k)
-check(17, 3)
+# check(17, 3)

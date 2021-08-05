@@ -351,10 +351,14 @@ is $\phi(n)$.
 
 \section{$\oplus_k$ over $\zee_p$}
 
+Let $p$ be a prime.
+
 \textbf{Definition 3.1.} $\zee_p'$ denotes the set of all
 $A \in \zee_p$ for which $0 \not\in A$.
 
 Let $k \in \zee_p'$ be a primitive root modulo $p$.
+We will use $\&$ to denote the bitwise AND operator
+and $\wedge$ to denote the bitwise XOR operator.
 
 \textbf{Definition 3.2.} Let $A \in \zee_p'$. For all $i \in \zee$
 with $0 \leq i \leq p - 2$, let $z_i = 0$ if $k^i \not\in A$,
@@ -367,7 +371,12 @@ The next bit is 1 if $k^1 \in A$ and 0 otherwise.
 This continues to the most significant bit,
 which is 1 if $k^{p-2} \in A$ and 0 otherwise.
 
-Consider the bitwise operators $\&$ (AND) and $\wedge$ (XOR).
+We can then construct the inverse as
+\[\beta^{-1}(x) = \{k^i \mid i \in \zee,
+    0 \leq i \leq p - 1,
+    x \mathbin{\&} 2^i > 0\}\]
+This shows that $\beta$ is a bijection.
+
 Let $L: \zee \rightarrow \zee$ denote left rotation by one bit
 over the $p-1$ least significant bits.
 Under this construction,
@@ -375,14 +384,12 @@ Under this construction,
 and
 \[\beta(\{mk \mid m \in A \cap B\}) = L(\beta(A) \mathbin{\&} \beta(B))\]
 
-\textbf{Definition 3.3.} Consider the bitwise operators $\&$ (AND)
-and $\wedge$ (XOR).
+\textbf{Definition 3.3.}
 Let $L: \zee \rightarrow \zee$ denote left rotation by one bit
 over the $p-1$ least significant bits.
 Define $\gamma: \zee \rightarrow \zee$
 by
 \[\gamma(x, y) = (x \wedge y, L(x \mathbin{\&} y))\]
-
 Note that repeated applications of $\gamma$ are equivalent to
 repeated applications of $\eta_k$, so for some $N \in \N$,
 \[\pi_1 \circ \gamma^N(\beta(A), \beta(B)) = \beta(A \oplus_k B)\]
@@ -390,6 +397,15 @@ repeated applications of $\eta_k$, so for some $N \in \N$,
 \textbf{Definition 3.4.} Define $\zeta: \mathcal{P}(\zee_p')
 \rightarrow \zee[x]/(x^{2^{p-1}}-x)$ by
 \[\zeta(A) = x^{\beta(A)}\]
+Let $f \in \zee[x]/(x^{2^{p-1}}-x)$ restricted to
+$\{1, x, x^2, \ldots, x^{2^{p-1}-1}\}$,
+and let $n \in \zee$ be the least integer such that
+$f(x) = x^n$.
+We can then construct the inverse of $\zeta$ as
+\[\zeta^{-1}(f(x)) = \beta^{-1}(n)\]
+This shows that $\zeta$ is a bijection between
+$\mathcal{P}(\zee_p')$ and $\zee[x]/(x^{2^{p-1}}-x)$ restricted to
+$\{1, x, x^2, \ldots, x^{2^{p-1}-1}\}$.
 
 \textbf{Theorem 3.1.} \textit{Let $A, B \subseteq \zee_p'$.
 Then, $\zeta(A) \cdot \zeta(B) = \zeta(A \oplus_k B)$.}
@@ -428,7 +444,7 @@ Thus,
 This completes the proof of the theorem. $\blacksquare$
 
 Since $\oplus_k$ is analogous to multiplication in
-$\zee[x]/(x^{2^{p-1}} - x)$, which is associativity,
+$\zee[x]/(x^{2^{p-1}} - x)$, which is associative,
 we know that $\oplus_k$ is associative.
 
 \textbf{Definition 3.5.} For any $S \subseteq \zee_p$ and $r \in \N$,
@@ -479,6 +495,48 @@ $k^{p-1} \equiv 1 \mod p$. Therefore,
     &= S
 \end{split}\]
 This proves the theorem. $\blacksquare$
+
+\textbf{Theorem 3.3.} \textit{Let $S \subseteq \zee_p'$
+with $S \neq \emptyset$. Then, $S \oplus_k \zee_p' = S$.}
+
+We will first establish that
+$\zeta(S) \cdot \zeta(\zee_p') = \zeta(S)$.
+\[\begin{split}
+    \zeta(S) \cdot \zeta(\zee_p')
+    &= x^{\beta(S) + \beta(\zee_p')} \\
+    &= x^{\beta(S) + 2^{p-1} - 1} \\
+    &= x^{\beta(S) + 2^{p-1} - 1}
+        - x^{\beta(S) - 1}(x^{2^{p-1}} - x) \\
+    &= x^{\beta(S) + 2^{p-1} - 1} - x^{\beta(S) + 2^{p-1} - 1}
+        + x^{\beta(S) - 1 + 1} \\
+    &= x^\beta(S) \\
+    &= \zeta(S)
+\end{split}\]
+Since $\zeta$ is a bijection, by Theorem 3.1, we can see that
+$S \oplus_k \zee_p' = S$. This completes the proof. $\blacksquare$
+
+\textbf{Corollary 3.1.} \textit{Let $S, T \subseteq \zee_p'$.
+If $T \neq \zee_p'$ and $T \neq \emptyset$,
+then $S \oplus_k T \neq S$.}
+
+This is clear from the precise exponent required in the proof of
+Theorem 3.3. If $\beta(T)$ is some positive value such that
+$\zeta(T) \neq x^{2^{p-1}-1}$, then the equation will
+produce a different result. $\blacksquare$
+
+\textbf{Corollary 3.2.} \textit{Let $S \subseteq \zee_p'$
+be nonempty with order $r > 1$. Then, $S^{r-1} = \zee_p'$.}
+
+Since $S$ is nonempty, $S^{r-1} \neq \emptyset$.
+Therefore, since $S^r = S \cdot S^{r-1} = S$,
+we find $S^{r-1} = \zee_p'$.
+$\blacksquare$
+
+For all nonempty subsets of $\zee_p'$, we can then consider
+$\zee_p'$ itself to be the identity. $\emptyset$ also functions
+as an identity, but it is less interesting because it does not have
+cancellation. Considering $\zee_p'$ to be the identity,
+we find that the inverse of a set is simply its complement.
 
 \section{Diffie-Hellman with $\oplus_k$}
 
@@ -560,7 +618,11 @@ result, and 0 is the worst.
 
 The most obvious observation is that these graphs are nearly
 perfectly symmetric. The average order for a size $s$
-is the same as that for $p - s - 1$.
+is the same as that for $p - 1 - s$.
+This makes sense, since the order of a set of size
+$s$ should have the same size as its inverse,
+which has size $p - 1 - s$.
+
 We can also see that when the size is 1 or $p - 2$,
 the order is always maximized. However, this is also the most
 restrictive category---there are only $2(p-1)$ such sets,
@@ -585,17 +647,26 @@ of the orders, and how many sets are associated with each order.
 
 In all cases, we observed a strong linear relationship between
 the order and the number of sets associated with that order.
-We also observed a fascinating pattern---every order that
-we found can be written as $\frac{2^{p-1}-1}{n} + 1$
+We also observed a fascinating pattern---for every
+$S \subseteq \zee_p'$ that we observed, its order
+can be written as $n + 1$
 for some $n \in \N$ with $n \mid 2^{p-1}-1$.
-This means that, if we check every divisor of $2^{p-1}-1$,
-we can eliminate all sets with orders less than the maximum.
+By Corollary 3.2, we can equivalently say that
+$S^n = \zee_p'$.
+Also note that for any $d \in \N$,
+if $d \mid n$ and $S^d = \zee_p'$,
+then $S^n = \zee_p'$.
+Therefore, we need only ensure that
+$S^{(2^{p-1}-1)/d} \neq \zee_p'$
+for all prime divisors $d$ of $2^{p-1}-1$
+to verify that the order of $S$ is $2^{p-1}$.
 
 Ideally, we would select $p$ such that $2^{p-1}-1$ is prime.
 However, this is impossible. Numbers of the form $2^n-1$
 for some $n \in \N$ are known as Mersenne numbers,
 and it is well-known that they can only be prime if $n$ is prime.
-Since $p-1$ is even, $2^{p-1}-1$ cannot be prime.
+Since $p-1$ is even, excluding case where $p = 3$,
+$2^{p-1}-1$ cannot be prime.
 Therefore, we should select $p$
 such that $2^{p-1}-1$ has as few divisors as possible.
 
@@ -603,17 +674,17 @@ We then propose the following steps to select $S$:
 \begin{enumerate}
     \item Select a random set $S \in \zee_p'$ with an odd size
     $s$ such that $1 \leq s \leq p - 2$.
-    \item For each divisor $d$ of $2^{p-1}-1$, compute
-    $S^{d+1}$. If $S^{d+1} = S$, return to step 1.
+    \item For each prime divisor $d$ of $2^{p-1}-1$, compute
+    $S^{(2^{p-1}-1)/d}$. If it is equal to $\zee_p'$, return to step 1.
     \item Proceed with set $S$.
 \end{enumerate}
-If checking every divisor of $2^{p-1}-1$ is infeasible, we can
-choose either to prioritize the small divisors or the large divisors.
-Checking the small divisors eliminates the unlikely
-worst-case scenario, in which a set with a very small order is selected.
-Checking the large divisors eliminates the much more likely scenario,
-in which a set with a less-than-optimal but not critically small order
-is selected.
+It may not be feasible to compute all prime divisors of
+$2^{p-1}-1$. Say we are only able to find prime divisors
+$d_1, d_2, \ldots, d_n$ with multiplicities $m_1, m_2, \ldots, m_n$.
+Then, we can check $S^{(2^{p-1}-1) / d_i}$ for each $d_i$ as described
+above, and we can also check $S^{d_1^{m_1}d_2^{m_2}\cdots d_n^{m_n}}$.
+This will not ensure that the order of $S$ is $2^{p-1}$, but it will
+eliminate many sets with lower orders.
 
 In the final two sections, we will detail other concepts that we
 explored, but did not find to be useful when developing the Diffie-Hellman
@@ -668,10 +739,29 @@ Transitivity clearly follows from Definition 6.2. This proves the
 theorem. $\blacksquare$
 
 \textbf{Theorem 6.2.} \textit{Let $a \in \zee$.
-Then, $\exists b \in \zee$ with $0 \leq b < x$
+Then, there exists a unique
+$b \in \zee$ with $0 \leq b < x$
 such that $a \equiv b \tim x$.}
 
-Obvious descent argument. $\blacksquare$
+We will first prove existence.
+We can write $a$ as $mx + n$ for some
+$m, n \in \zee$ with $m \geq 0$ and $0 \leq n < x$.
+If $m = 0$, we are done, as $a < x$.
+If $m = 0$, then we have $a' = mx + n$
+with $a' \sim a \tim x$ and $a' < a$.
+We can repeat this process indefinitely,
+substituting $a'$ for $a$,
+until $a' < x$.
+
+Now, we will prove uniqueness. Let $b \in \zee$
+with $0 \leq b < x$. If $b = 0$, then it is not
+congruent to any other numbers, so we are done.
+If $b > 0$,
+we can rewrite it as $(b - 1) + 1$,
+which shows us that the next greatest number congruent to
+$b$ is $(b - 1) + x \geq x$.
+This completes the proof of the theorem.
+$\blacksquare$
 
 \textbf{Definition 6.3.} Let $a \in \zee$.
 $b \in \zee$ is the \textit{canonical form of $a$ timulo $x$}
@@ -759,7 +849,7 @@ would be nearly identical, so it is not detailed here.
 \[R = \{n \in \N \mid k \nmid n\}\]
 Let $R = \{r_1, r_2, r_3, \ldots\}$ with $r_1 < r_2 < r_3 < \ldots$.
 
-\textbf{Definition 7.2.} Let $n \in \N$ and let $A \subseteq \N$.
+\textbf{Definition 7.2.} Let $n \in \N$ and let $A \in \mathcal{P}_f(\N)$.
 For all $i \in \zee$
 with $i \geq 0$, let $z_i = 0$ if $nk^i \not\in A$,
 and let $z_i = 1$ if $nk^i \in A$.
@@ -773,7 +863,7 @@ the same as $\beta'(1, A)$.
 \textbf{Definition 7.3.} Let
 $p_1, p_2, p_3, \ldots \in \N$ denote the primes in increasing
 order---that is, $p_1 = 2$, $p_2 = 3$, $p_3 = 5$, etc.
-Let $A \subseteq \N$.
+Let $A \in \mathcal{P}_f(\N)$.
 Then, define $\alpha: \mathcal{P}(\N) \rightarrow \N$ by
 \[\alpha(A) = \prod_{i=1}^\infty p_i^{\beta'(r_i, A)}\]
 We will consider an example. Suppose $k = 4$, and let
@@ -802,12 +892,36 @@ Therefore,
     &= 2^7 \cdot 5^5 \cdot 17 \\
     &= 6800000
 \end{split}\]
+We claim that $\alpha$ is a bijection.
 
-\textbf{Theorem 7.1.} \textit{Let $A, B \subseteq \N$.
+\textbf{Theorem 7.1.} \textit{Let $A, B \in \mathcal{P}_f(\N)$.
 Then, $\alpha(A \oplus_k B) = \alpha(A) \cdot \alpha(B)$.}
 
-Very similar to Theorem 3.1, I'll write it out later.
-$\blacksquare$
+Let $i \in \N$.
+Recall $\gamma$ from Definition 3.3.
+Since we are considering the natural numbers
+instead of a modular field, we can replace the $L$ function
+with multiplication by 2, to find that
+$\beta'(r_i, A) + \beta'(r_i, B) = \beta'(r_i, A \oplus_k B)$.
+
+Note that for any set $S \in \mathcal{P}_f(\N)$,
+any number represented by a bit in
+$\beta'(r_i, S)$ can be written in the form $r_ik^n$
+for some $n \in \zee$ with $n \geq 0$, and any number
+not represented there cannot be written in this form.
+Therefore, we can consider each $p_i$ separately,
+as they create isolated partitions of the set.
+
+We will now consider the product of $\alpha(A)$ and $\alpha(B)$.
+\[\begin{split}
+    \alpha(A) \cdot \alpha(B) &=
+    \prod_{i=1}^\infty p_i^{\beta'(r_i, A)}
+    \cdot \prod_{i=1}^\infty p_i^{\beta'(r_i, B)} \\
+    &= \prod_{i=1}^\infty p_i^{\beta'(r_i, A) + \beta'(r_i, B)} \\
+    &= \prod_{i=1}^\infty p_i^{\beta'(r_i, A \oplus_k B)} \\
+    &= \alpha(A \oplus_k B)
+\end{split}\]
+This completes the proof of the theorem. $\blacksquare$
 
 
 \end{document}
